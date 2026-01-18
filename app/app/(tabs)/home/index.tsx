@@ -9,6 +9,7 @@ import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { supabase } from "../../../utils/supabase";
+// import "../../../global.css";
 
 type User = {
   id: string;
@@ -34,8 +35,10 @@ export default function HomeScreen() {
     }
   }
   return (
-    <View>
-      <Text style={{ color: "green", fontSize: 20 }}>Hi {user?.name}</Text>
+    <View className="flex-1 items-center justify-center bg-black">
+      <Text className="text-xl font-bold text-primary">
+        Welcome to Nativewind!
+      </Text>
     </View>
   );
 }
