@@ -10,7 +10,9 @@ module.exports = {
   theme: {
     colors: {
       primary: "#99A3FF",
-      white: "#FFFFFF",
+      secondary: "BD91CE",
+      background: "FFF7ED",
+      clickable: "0D1CA8",
     },
     extend: {},
   },
