@@ -9,6 +9,7 @@ import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { supabase } from "../../../utils/supabase";
+import DailyTask from "@/components/tasks/DailyTask";
 // import "../../../global.css";
 
 type User = {
@@ -21,6 +22,20 @@ type User = {
 export default function HomeScreen() {
   const [user, setUser] = useState<User>();
 
+  const tasks = [
+    {
+      id: "1",
+      name: "Drink Water",
+      freq: 3,
+      totalFreq: 8,
+      completed: false,
+    },
+    {
+      id: "2",
+      name: "gym",
+      completed: false,
+    },
+  ];
   useEffect(() => {
     getUser();
   }, []);
@@ -35,10 +50,21 @@ export default function HomeScreen() {
     }
   }
   return (
-    <View className="flex-1 items-center justify-center bg-black">
-      <Text className="text-xl font-bold text-primary">
-        Welcome to Nativewind!
-      </Text>
+    <View className="flex-1 items-center justify-center bg-background p-4">
+      <Text className="text-xl font-bold text-black">Home</Text>
+      <Text className="text-lg font-bold text-black">To do</Text>
+      {tasks.map((task) => (
+        <DailyTask
+          key={task.id}
+          id={task.id}
+          name={task.name}
+          freq={task.freq}
+          totalFreq={task.totalFreq}
+          completed={task.completed}
+          icon="dlsjdkl"
+        />
+      ))}
+      <Text className="text-lg font-bold text-black">Completed</Text>
     </View>
   );
 }
