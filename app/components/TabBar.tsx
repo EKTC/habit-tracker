@@ -60,7 +60,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
           >
             {/* TODO: colour is not connected to config file */}
             {icon[route.name]({
-              color: isFocused ? "#6zB6DFF" : "white",
+              color: isFocused ? "#6B6DFF" : "white",
             })}
             {/* TODO: unable to bold font */}
             <Text
