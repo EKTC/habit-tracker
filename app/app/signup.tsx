@@ -6,42 +6,56 @@ import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { useAuthContext } from '@/hooks/use-auth-context'
 
-export default function LoginScreen() {
+export default function SignUpScreen() {
   const [email, setEmail] = useState('')
+  const [cemail, setConfirmEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   
-  const signIn = async () => {
+  const signUp = async () => {
     setLoading(true)
-
-    const { error } = await supabase.auth.signInWithPassword({
+    if (email !== cemail) {
+      Alert.alert('Sign Up failed', 'Emails do not match')
+      setLoading(false)
+      return
+    }
+    
+    console.log(email, password)
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     })
 
-    console.log(email, password)
+    console.log(data)
     setLoading(false)
 
     if (error) {
-      Alert.alert('Login failed', error.message)
+      Alert.alert('Sign Up failed', error.message)
       return
     }
 
-    router.replace('/home') // go to home after login
+    router.replace('/home') // go to home after signing up
   }
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Login' }} />
+      <Stack.Screen options={{ title: 'Sign Up' }} />
 
       <ThemedView style={styles.container}>
-        <ThemedText type="title">Login</ThemedText>
+        <ThemedText type="title">Sign Up</ThemedText>
 
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Confirm Email"
+          autoCapitalize="none"
+          value={cemail}
+          onChangeText={setConfirmEmail}
           style={styles.input}
         />
 
@@ -52,16 +66,14 @@ export default function LoginScreen() {
           onChangeText={setPassword}
           style={styles.input}
         />
-
         <Button
-          title={loading ? 'Logging in...' : 'Login'}
-          onPress={signIn}
+          title={loading ? 'Signing up...' : 'Sign Up'}
+          onPress={signUp}
           disabled={loading}
         />
-
         <Button
-          title={loading ? 'Switching...' : 'Sign Up'}
-          onPress={() => router.replace('/signup')}
+          title={loading ? 'Switching...' : 'Login'}
+          onPress={() => router.replace('/login')}
           disabled={loading}
         />
       </ThemedView>
