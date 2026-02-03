@@ -10,13 +10,6 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { isLoggedIn, isLoading } = useAuthContext()
-//   useEffect(() => {
-//     if (!isLoading && isLoggedIn) {
-// 		console.log(isLoading, isLoggedIn)
-//       	router.replace('/home') // target route
-//     }
-//   }, [isLoading, isLoggedIn])
   
   const signIn = async () => {
     setLoading(true)

@@ -1,3 +1,6 @@
+// File that provides the auth and returns all the details related to authcontext
+
+
 import { AuthContext } from '@/hooks/use-auth-context'
 import { supabase } from '@/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
@@ -10,7 +13,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   // Fetch the session once, and subscribe to auth state changes
   useEffect(() => {
-    let isMounted = true
     const fetchSession = async () => {
 
       const {
@@ -18,7 +20,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         error,
       } = await supabase.auth.getSession()
 
-      if (isMounted) setSession(session)
       if (error) console.error('Error fetching session:', error)
     }
 
@@ -33,7 +34,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
     // Cleanup subscription on unmount
     return () => {
-        isMounted = false
         subscription.unsubscribe()
     }
   }, [])

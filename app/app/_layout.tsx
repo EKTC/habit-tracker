@@ -18,7 +18,8 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   
-  
+  // We wrap the entire app with auth provider
+  // So we can access the state from anywhere 
   return (
     <AuthProvider>
       <RootNavigator />
@@ -30,6 +31,7 @@ function RootNavigator() {
   const { isLoggedIn } = useAuthContext()
   const colorScheme = useColorScheme();
   return (
+    // Have protected guard so that we can prevent unauthorised logins
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Protected guard={isLoggedIn}>

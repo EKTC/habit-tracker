@@ -1,3 +1,4 @@
+// Our connection to supabase and setting up the auth tokens
 import { createClient } from '@supabase/supabase-js';
 import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 const ExpoSecureStoreAdapter = {
