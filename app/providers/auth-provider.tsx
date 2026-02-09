@@ -61,6 +61,20 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     fetchProfile()
   }, [session])
 
+  useEffect(() => {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      console.log('Logged in:', session.user)
+    } else {
+      console.log('Logged out')
+    }
+  })
+
+  return () => subscription.unsubscribe()
+}, [])
+
   return (
     <AuthContext.Provider
       value={{

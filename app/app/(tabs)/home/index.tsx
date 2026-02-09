@@ -30,7 +30,7 @@ export default function HomeScreen() {
   }, []);
 
   async function getUser() {
-    const { data, error } = await supabase.from("User").select().single();
+    const { data, error } = await supabase.from("users").select().single();
 
     console.log("User data:", data);
     console.log("User error:", error);
