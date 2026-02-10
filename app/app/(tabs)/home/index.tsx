@@ -11,9 +11,13 @@ import { Text, View } from "react-native";
 import { supabase } from "../../../utils/supabase";
 import DailyTask from "@/components/tasks/DailyTask";
 import Button from "@/components/Button";
+import { useAuthContext } from "@/hooks/use-auth-context";
+import SignOutButton from "@/components/sign-out-button";
 // import "../../../global.css";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+
+const { profile } = useAuthContext();
 
 type User = {
   id: string;
@@ -49,7 +53,7 @@ export default function HomeScreen() {
   }, []);
 
   async function getUser() {
-    const { data, error } = await supabase.from("User").select().single();
+    const { data, error } = await supabase.from("users").select().single();
 
     console.log("User data:", data);
     console.log("User error:", error);
