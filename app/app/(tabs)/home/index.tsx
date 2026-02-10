@@ -9,7 +9,11 @@ import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { supabase } from "../../../utils/supabase";
+import { useAuthContext } from "@/hooks/use-auth-context";
+import SignOutButton from "@/components/sign-out-button";
 // import "../../../global.css";
+
+const { profile } = useAuthContext()
 
 type User = {
   id: string;
@@ -26,7 +30,7 @@ export default function HomeScreen() {
   }, []);
 
   async function getUser() {
-    const { data, error } = await supabase.from("User").select().single();
+    const { data, error } = await supabase.from("users").select().single();
 
     console.log("User data:", data);
     console.log("User error:", error);
@@ -36,9 +40,10 @@ export default function HomeScreen() {
   }
   return (
     <View className="flex-1 items-center justify-center bg-black">
-      <Text className="text-xl font-bold text-primary">
+      <Text className="text-xl font-bold text-secondary">
         Welcome to Nativewind!
       </Text>
+      <SignOutButton />
     </View>
   );
 }
