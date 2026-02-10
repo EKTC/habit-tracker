@@ -25,6 +25,14 @@ export default function RootLayout() {
           name="modal"
           options={{ presentation: "modal", title: "Modal" }}
         />
+        <Stack.Screen
+          name="addHabit"
+          options={{
+            title: "Add Habit",
+            presentation: "modal",
+            animation: "slide_from_bottom",
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

@@ -10,7 +10,10 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { supabase } from "../../../utils/supabase";
 import DailyTask from "@/components/tasks/DailyTask";
+import Button from "@/components/Button";
 // import "../../../global.css";
+import { useRouter } from "expo-router";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 type User = {
   id: string;
@@ -20,7 +23,12 @@ type User = {
 };
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [user, setUser] = useState<User>();
+
+  const addTask = () => {
+    router.push("/addHabit");
+  };
 
   const tasks = [
     {
@@ -49,6 +57,7 @@ export default function HomeScreen() {
       setUser(data);
     }
   }
+
   return (
     <View className="flex-1 items-center justify-center bg-background p-4">
       <Text className="text-xl font-bold text-black">Home</Text>
@@ -65,6 +74,11 @@ export default function HomeScreen() {
         />
       ))}
       <Text className="text-lg font-bold text-black">Completed</Text>
+      <Button
+        onPress={addTask}
+        icon={<MaterialIcons name="add" size={24} color="white" />}
+        variant="icon"
+      />
     </View>
   );
 }
