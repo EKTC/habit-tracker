@@ -27,12 +27,11 @@ const ControlledTextField = <T extends FieldValues>({
   name,
   placeholder,
   rules,
-  errors,
   ...textInputProps
 }: ControlledTextFieldProps<T>) => {
-  const error = errors?.[name] as FieldError | undefined;
+  // const error = errors?.[name] as FieldError | undefined;
 
-  console.log("ControlledTextField error:", errors?.[name]);
+  // console.log("ControlledTextField error:", errors?.[name]);
   return (
     <View>
       {/* connecting the react native text component to RHF, making it controlled */}
@@ -41,18 +40,25 @@ const ControlledTextField = <T extends FieldValues>({
         control={control}
         // field contains the event handlers and value for the input field
         rules={rules}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            {...textInputProps}
-            className={`w-full bg-input rounded-md placeholder:p-4 mb-1 ${error ? "border border-error" : ""}`}
-            placeholder={placeholder}
-            value={value}
-            onBlur={onBlur}
-            onChangeText={onChange}
-          />
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
+          <>
+            <TextInput
+              {...textInputProps}
+              className={`w-full bg-input rounded-md placeholder:p-4 mb-1 ${error ? "border border-error" : ""}`}
+              placeholder={placeholder}
+              value={value}
+              onBlur={onBlur}
+              onChangeText={onChange}
+            />
+            {error && (
+              <Text className="text-error">{error.message || "Error"}</Text>
+            )}
+          </>
         )}
       />
-      {errors?.[name] && <Text className="text-error">{error?.message}</Text>}
     </View>
   );
 };
