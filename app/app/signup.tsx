@@ -11,6 +11,7 @@ type FormData = {
   email: string;
   confirmEmail: string;
   password: string;
+  confirmPassword: string;
 };
 
 export default function SignUpScreen() {
@@ -25,6 +26,7 @@ export default function SignUpScreen() {
   const email = watch("email");
   const confirmEmail = watch("confirmEmail");
   const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
 
   const onSubmit = async (d: any) => {
     try {
@@ -66,6 +68,7 @@ export default function SignUpScreen() {
                 value={value}
                 style={styles.input}
                 autoCapitalize="none"
+                keyboardType="email-address"
               />
               {errors.email && (
                 <Text className="text-white">{errors.email.message}</Text>
@@ -79,37 +82,82 @@ export default function SignUpScreen() {
           control={control}
           rules={{
             maxLength: 100,
+            required: "Please confirm your email",
+            validate: (value) => value === email || "Emails do not match",
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Confirm Email"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={styles.input}
-              autoCapitalize="none"
-            />
+            <>
+              <TextInput
+                placeholder="Confirm Email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                style={styles.input}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+              {errors.confirmEmail && (
+                <Text className="text-white">
+                  {errors.confirmEmail.message}
+                </Text>
+              )}
+            </>
           )}
           name="confirmEmail"
         />
         <Controller
           control={control}
           rules={{
-            maxLength: 100,
+            maxLength: 64,
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters",
+            },
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="Password"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry
-              style={styles.input}
-            />
+            <>
+              <TextInput
+                placeholder="Password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry
+                style={styles.input}
+              />
+              {errors.password && (
+                <Text className="text-white">{errors.password.message}</Text>
+              )}
+            </>
           )}
           name="password"
         />
-
+        <Controller
+          control={control}
+          rules={{
+            maxLength: 64,
+            required: "Please confirm your password",
+            validate: (value) => value === password || "Passwords do not match",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <>
+              <TextInput
+                placeholder="Confirm Password"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry
+                style={styles.input}
+              />
+              {errors.confirmPassword && (
+                <Text className="text-white">
+                  {errors.confirmPassword.message}
+                </Text>
+              )}
+            </>
+          )}
+          name="confirmPassword"
+        />
         <Button title="Submit" onPress={handleSubmit(onSubmit)} />
         <Button
           title={loading ? "Switching..." : "Already have an account?"}
