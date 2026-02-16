@@ -9,13 +9,22 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     colors: {
-      primary: "#99A3FF",
+      primary: "#808ae9",
       secondary: "#BD91CE",
-      background: "#FFF7ED",
-      clickable: "#2832f1",
+      background: "#FFFBF4",
+      clickable: "#808ae9",
       white: "#FFFFFF",
+      input: "#F9EDDF",
+      error: "#D50B0B",
     },
     extend: {},
+    fontSize: {
+      xs: "0.75rem", // 12px
+      sm: "0.875rem", // 14px
+      md: "1rem", // 16px - base
+      lg: "1.5rem", // 24px
+      xl: "1.75rem", // 28px
+    },
   },
   plugins: [],
 };

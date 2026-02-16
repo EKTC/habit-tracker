@@ -6,6 +6,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { useAuthContext } from "@/hooks/use-auth-context";
 import { Controller, useForm } from "react-hook-form";
+import ControlledTextField from "@/components/ContolledTextField";
 
 type FormData = {
   email: string;
@@ -20,7 +21,10 @@ export default function SignUpScreen() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+  });
 
   const [loading, setLoading] = useState(false);
   const email = watch("email");
@@ -44,69 +48,67 @@ export default function SignUpScreen() {
 
     router.replace("/home"); // go to home after signing up
   };
+  const validateEmailsMatch = (value: string) => {
+    if (value !== email) {
+      return "Emails do not match";
+    }
+    return true;
+  };
+  const validatePasswordsMatch = (value: string) => {
+    if (value !== password) {
+      return "Passwords do not match";
+    }
+    return true;
+  };
 
   return (
     <>
       <Stack.Screen options={{ title: "Sign Up" }} />
       <View>
-        <Controller
+        <Text>Email</Text>
+        <ControlledTextField
           control={control}
+          name="email"
+          placeholder="Email"
           rules={{
-            maxLength: 100,
+            maxLength: {
+              value: 100,
+              message: "Email cannot exceed 100 characters",
+            },
             required: "Email is required",
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "Invalid email address",
             },
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                placeholder="Email"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={styles.input}
-                autoCapitalize="none"
-                keyboardType="email-address"
-              />
-              {errors.email && (
-                <Text className="text-white">{errors.email.message}</Text>
-              )}
-            </>
-          )}
-          name="email"
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
-
-        <Controller
+        <Text>Confirm Email</Text>
+        <ControlledTextField
           control={control}
-          rules={{
-            maxLength: 100,
-            required: "Please confirm your email",
-            validate: (value) => value === email || "Emails do not match",
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                placeholder="Confirm Email"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={styles.input}
-                autoCapitalize="none"
-                keyboardType="email-address"
-              />
-              {errors.confirmEmail && (
-                <Text className="text-white">
-                  {errors.confirmEmail.message}
-                </Text>
-              )}
-            </>
-          )}
           name="confirmEmail"
+          placeholder="Confirm Email"
+          rules={{
+            maxLength: {
+              value: 100,
+              message: "Email cannot exceed 100 characters",
+            },
+            required: "Confirm emails match.",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Invalid email address",
+            },
+            validate: validateEmailsMatch,
+          }}
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
-        <Controller
+        <Text>Password</Text>
+        <ControlledTextField
           control={control}
+          name="password"
+          placeholder="Password"
           rules={{
             maxLength: 64,
             required: "Password is required",
@@ -115,48 +117,19 @@ export default function SignUpScreen() {
               message: "Password must be at least 8 characters",
             },
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                placeholder="Password"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry
-                style={styles.input}
-              />
-              {errors.password && (
-                <Text className="text-white">{errors.password.message}</Text>
-              )}
-            </>
-          )}
-          name="password"
+          secureTextEntry
         />
-        <Controller
+        <Text>Confirm Password</Text>
+        <ControlledTextField
           control={control}
+          name="confirmPassword"
+          placeholder="Confirm Password"
           rules={{
             maxLength: 64,
             required: "Please confirm your password",
-            validate: (value) => value === password || "Passwords do not match",
+            validate: validatePasswordsMatch,
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                placeholder="Confirm Password"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry
-                style={styles.input}
-              />
-              {errors.confirmPassword && (
-                <Text className="text-white">
-                  {errors.confirmPassword.message}
-                </Text>
-              )}
-            </>
-          )}
-          name="confirmPassword"
+          secureTextEntry
         />
         <Button title="Submit" onPress={handleSubmit(onSubmit)} />
         <Button
