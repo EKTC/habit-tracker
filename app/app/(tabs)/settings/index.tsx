@@ -8,11 +8,13 @@ import { ThemedView } from "@/components/themed-view";
 import { Link } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
+import SignOutButton from "@/components/sign-out-button";
 
 export default function HomeScreen() {
   return (
     <View>
       <Text style={{ color: "green", fontSize: 20 }}>Help me</Text>
+      <SignOutButton />
     </View>
   );
 }
