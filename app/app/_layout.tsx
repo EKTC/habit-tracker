@@ -17,9 +17,8 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  
   // We wrap the entire app with auth provider
-  // So we can access the state from anywhere 
+  // So we can access the state from anywhere
   return (
     <AuthProvider>
       <RootNavigator />
@@ -28,25 +27,22 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { isLoggedIn } = useAuthContext()
+  const { isLoggedIn } = useAuthContext();
   const colorScheme = useColorScheme();
   return (
     // Have protected guard so that we can prevent unauthorised logins
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Protected guard={isLoggedIn}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{ presentation: "modal", title: "Modal" }}
-            />
-          </Stack.Protected>
-          <Stack.Protected guard={!isLoggedIn}>
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-          </Stack.Protected>
-        
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-  )
+      <Stack>
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="editprofile" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="signup" options={{ headerShown: false }} />
+        </Stack.Protected>
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
+  );
 }
