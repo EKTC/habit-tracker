@@ -3,9 +3,12 @@ import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import ControlledTextField from "@/components/ContolledTextField";
+import Dropdown from "@/components/Dropdown";
 
 type FormValues = {
   habitTitle: string;
+  description: string;
+  frequency: number;
 };
 
 export default function AddHabitsScreen() {
@@ -33,6 +36,25 @@ export default function AddHabitsScreen() {
         rules={{ required: "Habit title is required" }}
         errors={errors}
       />
+      <ControlledTextField
+        control={control}
+        name="description"
+        placeholder="Description"
+        errors={errors}
+        multiline={true}
+      />
+      <Text>Frequency per day</Text>
+      <ControlledTextField
+        control={control}
+        name="frequency"
+        errors={errors}
+        keyboardType="number-pad"
+        placeholder="1"
+      />
+      <Text>Repeat</Text>
+      <Dropdown onChange={function (item: any): void {
+        throw new Error("Function not implemented.");
+      } } data={[]} labelField={""} valueField={""} />
       {/* connect the button to the data on RHF */}
       <Button title="Save" onPress={handleSubmit(submit)} />
     </SafeAreaView>
