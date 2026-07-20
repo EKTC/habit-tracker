@@ -2,4 +2,4 @@
 
 ## Starting the app
 
-npx expo start --tunnel
+ npx expo start --tunnel --clear
