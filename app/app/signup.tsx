@@ -14,6 +14,10 @@ type FormData = {
   confirmPassword: string;
 };
 
+const onError = (errors: any) => {
+  console.log("Validation errors:", errors);
+};
+
 export default function SignUpScreen() {
   const {
     control,
@@ -29,6 +33,8 @@ export default function SignUpScreen() {
   const confirmPassword = watch("confirmPassword");
 
   const onSubmit = async (d: any) => {
+    console.log("signup called");
+    setLoading(true);
     try {
       const { data: signUpData, error } = await supabase.auth.signUp({
         email: d.email,
@@ -42,7 +48,8 @@ export default function SignUpScreen() {
       return;
     }
 
-    router.replace("/home"); // go to home after signing up
+    alert("Please check your email for confirmation.");
+    router.replace("/login"); // go to login after signing up
   };
 
   return (
@@ -158,7 +165,7 @@ export default function SignUpScreen() {
           )}
           name="confirmPassword"
         />
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+        <Button title="Submit" onPress={handleSubmit(onSubmit, onError)} />
         <Button
           title={loading ? "Switching..." : "Already have an account?"}
           onPress={() => router.replace("/login")}
