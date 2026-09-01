@@ -56,11 +56,11 @@ const TabBar = ({ state, descriptors, navigation }) => {
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            className="flex flex-col items-center justify-center"
+            className={`flex flex-col h-[80%] items-center justify-center w-20 ${isFocused ? "bg-white rounded-full" : ""}`}
           >
             {/* TODO: colour is not connected to config file */}
             {icon[route.name]({
-              color: isFocused ? "#2832f1" : "white",
+              color: isFocused ? "#6B6DFF" : "white",
             })}
             {/* TODO: unable to bold font */}
             <Text
